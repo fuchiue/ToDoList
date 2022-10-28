@@ -1,3 +1,13 @@
 <resources>
     <string name="app_name">ToDoList</string>
+    <string name="newCreate">新規作成</string>
+    <string name="getTitle">タイトルを入力してください</string>
+    <string name="getMemo">内容を入力してください</string>
+    <string name="startCamera">カメラ起動</string>
+    <string name="back">戻る</string>
+    <string name="finish">完了</string>
+    <string name="clear">クリア</string>
+    <string name="delete">削除</string>
+    <string name="variant">編集</string>
+    <string name="title">Title:</string>
 </resources>
