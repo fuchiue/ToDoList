@@ -10,4 +10,5 @@
     <string name="delete">削除</string>
     <string name="variant">編集</string>
     <string name="title">Title:</string>
+    <string name="memohint">何も入力されていません</string>
 </resources>

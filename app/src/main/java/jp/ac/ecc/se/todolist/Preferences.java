@@ -67,6 +67,14 @@ public class Preferences extends AppCompatActivity {
         pref.edit().putStringSet(title, mArray).apply();
         mArray.clear();
     }
+    public void deletePreMemoUri(String title){
+        Set<String> mArray = pref.getStringSet(title, null);
+        memoList = new ArrayList<String>(mArray);
+        memoList.set(1,"URI");
+        mArray = new HashSet<String>(memoList);
+        pref.edit().putStringSet(title, mArray).apply();
+        mArray.clear();
+    }
     //titleに適応したMemoListを返す
     public ArrayList<String> getPreMemo(String title){
         Set<String> mArray = pref.getStringSet(title, null);

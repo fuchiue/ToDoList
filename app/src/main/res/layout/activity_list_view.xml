@@ -14,7 +14,7 @@
         android:layout_marginBottom="16dp"
         android:clickable="true"
         app:layout_constraintBottom_toTopOf="@+id/variantButton"
-        app:layout_constraintEnd_toEndOf="@+id/deleteButton2"
+        app:layout_constraintEnd_toEndOf="@+id/deleteButton"
         app:srcCompat="@android:drawable/ic_menu_gallery" />
 
     <Button
@@ -35,12 +35,12 @@
         android:layout_marginBottom="32dp"
         android:text="@string/variant"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/deleteButton2"
+        app:layout_constraintEnd_toStartOf="@+id/deleteButton"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/backButton2" />
 
     <Button
-        android:id="@+id/deleteButton2"
+        android:id="@+id/deleteButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="32dp"
@@ -58,7 +58,7 @@
         android:layout_marginTop="24dp"
         android:layout_marginEnd="24dp"
         android:layout_marginBottom="24dp"
-        android:hint="めも"
+        android:hint="@string/memohint"
         android:textSize="16sp"
         app:layout_constraintBottom_toTopOf="@+id/imgViewButton2"
         app:layout_constraintEnd_toEndOf="parent"

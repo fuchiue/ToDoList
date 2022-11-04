@@ -13,6 +13,7 @@ import android.provider.MediaStore;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import java.io.File;
 import java.io.IOException;
@@ -20,7 +21,28 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 
 public class ImgViewActivity extends AppCompatActivity {
-    private Path path;
+
+    //Uriのパスを取得する
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public Path createPath(Uri image,Context context){
+        Path path = null;
+        //ファイルのパスを取得
+        String[] projection = {MediaStore.MediaColumns.DATA};
+        Cursor cursor = context.getContentResolver().query(image,projection,null,null,null);
+        if(cursor != null){
+            String pathStr = null;
+            if(cursor.moveToFirst()){
+                pathStr = cursor.getString(0);
+            }
+            cursor.close();
+            if(pathStr != null){
+                File file = new File(pathStr);
+                path = file.toPath();
+            }
+        }
+        return path;
+    }
+
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
@@ -30,32 +52,17 @@ public class ImgViewActivity extends AppCompatActivity {
         //画像データ取得
         Intent intent = getIntent();
         Uri image = intent.getParcelableExtra("image");
+        String title = intent.getStringExtra("title");
         //画像表示パーツ生成
         ImageView viewImg = findViewById(R.id.viewImg);
         //画像表示
         viewImg.setImageURI(image);
-        //
-        Context context = getApplicationContext();
-        //ファイルのパスを取得
-        String[] projection = {MediaStore.MediaColumns.DATA};
-        Cursor cursor = context.getContentResolver().query(image,projection,null,null,null);
-        if(cursor != null){
-            String path = null;
-            if(cursor.moveToFirst()){
-                path = cursor.getString(0);
-            }
-            cursor.close();
-            if(path != null){
-                File file = new File(path);
-                Path path1 = file.toPath();
-                this.path = path1;
-            }
-        }
-        //パス取得完了
 
         //ボタンパーツ宣言
         Button backImg = findViewById(R.id.backImg);
         Button deleteImg = findViewById(R.id.deleteImg);
+        //パス取得
+        Path path=createPath(image,getApplicationContext());
 
         //データが存在しないときボタンを非表示
         if(!Files.exists(path)){
@@ -74,6 +81,12 @@ public class ImgViewActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 try{
+                    //タイトルがあればUriを空文字にする
+                    if(title!=null){
+                        Preferences pre = new Preferences(getApplicationContext());
+                        pre.deletePreMemoUri(title);
+                        Toast.makeText(getApplicationContext(), "削除しました", Toast.LENGTH_SHORT).show();
+                    }
                     Files.deleteIfExists(path);
                 } catch (IOException e) {
                     e.printStackTrace();
