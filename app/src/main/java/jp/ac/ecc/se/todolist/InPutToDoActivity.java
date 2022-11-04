@@ -40,8 +40,10 @@ public class InPutToDoActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_in_put_to_do);
-        //このアプリの情報を保存するファイルを生成
-        SharedPreferences pref = getPreferences(Context.MODE_PRIVATE);
+
+        //Preferencesのinstance生成
+        Preferences pre = new Preferences(getApplicationContext());
+
         //画面上のパーツ生成
         EditText getTitle = findViewById(R.id.getTitle);
         EditText getMemo = findViewById(R.id.getMemo);
@@ -51,6 +53,7 @@ public class InPutToDoActivity extends AppCompatActivity {
         Button finishButton = findViewById(R.id.finishButton);
         Button clearButton = findViewById(R.id.clearButton);
 
+        // 戻るボタンが押されたら
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -58,6 +61,7 @@ public class InPutToDoActivity extends AppCompatActivity {
             }
         });
 
+        //クリアボタンが押されたら
         clearButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -104,16 +108,15 @@ public class InPutToDoActivity extends AppCompatActivity {
         finishButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //タイトルを使ってメモストレージを作成
-                String memoSt = pref.getString(getTitle.getText().toString(),null);
-
-                SharedPreferences.Editor editor = pref.edit();
-                editor.putString(getTitle.getText().toString(),getMemo.getText().toString());
-                editor.apply();
+                //タイトルをtitleListに保存
+                pre.setPreTitle(getTitle.getText().toString());
+                //メモ情報と写真情報をMemoListに保存
+                pre.setPreMemo(getTitle.getText().toString(),getMemo.getText().toString(),imageUri.toString());
+                //トーストを表示
                 Toast.makeText(getApplicationContext(),"保存しました",Toast.LENGTH_SHORT).show();
-                Intent intentList = new Intent(getApplicationContext(),ToDoListActivity.class);
-                intentList.putExtra("title",getTitle.getText().toString());
-                startActivity(intentList);
+                //ToDoListに遷移
+                Intent intent = new Intent(getApplicationContext(),ToDoListActivity.class);
+                startActivity(intent);
             }
         });
 
