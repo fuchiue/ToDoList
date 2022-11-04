@@ -4,7 +4,9 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -38,6 +40,8 @@ public class InPutToDoActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_in_put_to_do);
+        //このアプリの情報を保存するファイルを生成
+        SharedPreferences pref = getPreferences(Context.MODE_PRIVATE);
         //画面上のパーツ生成
         EditText getTitle = findViewById(R.id.getTitle);
         EditText getMemo = findViewById(R.id.getMemo);
@@ -87,10 +91,29 @@ public class InPutToDoActivity extends AppCompatActivity {
         imgViewButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //画像表示画面へ遷移
-                Intent intentImg = new Intent(getApplicationContext(),ImgViewActivity.class);
-                intentImg.putExtra("image",imageUri);
-                startActivity(intentImg);
+                if(imageUri!=null){
+                    //画像表示画面へ遷移
+                    Intent intentImg = new Intent(getApplicationContext(),ImgViewActivity.class);
+                    intentImg.putExtra("image",imageUri);
+                    startActivity(intentImg);
+                }
+            }
+        });
+
+        //完了ボタンが押されたとき
+        finishButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //タイトルを使ってメモストレージを作成
+                String memoSt = pref.getString(getTitle.getText().toString(),null);
+
+                SharedPreferences.Editor editor = pref.edit();
+                editor.putString(getTitle.getText().toString(),getMemo.getText().toString());
+                editor.apply();
+                Toast.makeText(getApplicationContext(),"保存しました",Toast.LENGTH_SHORT).show();
+                Intent intentList = new Intent(getApplicationContext(),ToDoListActivity.class);
+                intentList.putExtra("title",getTitle.getText().toString());
+                startActivity(intentList);
             }
         });
 
