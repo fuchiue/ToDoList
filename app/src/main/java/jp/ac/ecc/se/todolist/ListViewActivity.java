@@ -77,6 +77,8 @@ public class ListViewActivity extends AppCompatActivity {
                     intentImg.putExtra("title", title);
                     intentImg.putExtra("image", imageUri);
                     startActivity(intentImg);
+                }else{
+                    Toast.makeText(getApplicationContext(),"画像がありません",Toast.LENGTH_SHORT).show();
                 }
             }
         });

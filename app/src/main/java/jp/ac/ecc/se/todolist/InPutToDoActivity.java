@@ -115,7 +115,11 @@ public class InPutToDoActivity extends AppCompatActivity {
                         Intent intentImg = new Intent(getApplicationContext(), ImgViewActivity.class);
                         intentImg.putExtra("image", imageUri);
                         startActivity(intentImg);
+                    }else{
+                        Toast.makeText(getApplicationContext(),"画像がありません",Toast.LENGTH_SHORT).show();
                     }
+                }else{
+                Toast.makeText(getApplicationContext(),"画像がありません",Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -125,7 +129,7 @@ public class InPutToDoActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String title = getTitle.getText().toString();
-                //メモ情報と写真情報をMemoListに保存
+
                 if(!title.equals("")) {
                     //---もし同じタイトルがあったときの分岐
                     ArrayList<String> titleList = pre.getPreTitle();
@@ -139,8 +143,8 @@ public class InPutToDoActivity extends AppCompatActivity {
                         pre.setPreTitle(title);
                         //改行コードを置換
                         String memo = getMemo.getText().toString().replace(BR, "<KAIbrKAI>");
-
                         String img = (imageUri == null) ? "URI" : imageUri.toString();
+                        //メモ情報と写真情報をMemoListに保存
                         pre.setPreMemo(title, memo, img);
                         //トーストを表示
                         Toast.makeText(getApplicationContext(), "保存しました", Toast.LENGTH_SHORT).show();

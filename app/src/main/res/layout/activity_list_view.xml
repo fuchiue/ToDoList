@@ -58,7 +58,7 @@
         android:layout_marginTop="24dp"
         android:layout_marginEnd="24dp"
         android:layout_marginBottom="24dp"
-        android:hint="@string/memohint"
+        android:text="@string/memohint"
         android:textSize="16sp"
         app:layout_constraintBottom_toTopOf="@+id/imgViewButton2"
         app:layout_constraintEnd_toEndOf="parent"
